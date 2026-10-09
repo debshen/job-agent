@@ -47,9 +47,8 @@ Score it on EACH of these dimensions, 0–100:
                      in the criteria? This is the most
                      heavily weighted dimension.
   - comp:            Posted base+equity+bonus likely meets/exceeds the floor.
-                     If the posting omits comp, say so; only cite a company
-                     band you are confident is accurate, and otherwise treat
-                     comp as unknown (see "Evidence rules" below).
+                     If the posting omits comp, comp is unknown (see
+                     "Evidence rules" below).
   - ai_moat:         How defensible is this company's product/distribution as
                      general-purpose AI gets cheaper? Use the criteria's
                      positive/negative signals.
@@ -60,9 +59,8 @@ Score it on EACH of these dimensions, 0–100:
   - company_health:  For public, weight against the 5yr CAGR threshold. For
                      private, use stage / valuation / profitability. Unknown
                      is a valid answer (see "Evidence rules").
-  - work_model:      Remote ≈ light hybrid (1-2 days) > 3-day hybrid >
-                     5-day in-office, per the work-model preferences in the
-                     criteria.
+  - work_model:      Score the posting's work model using the
+                     work_model_preferences ranking in the criteria.
 
 Then output a SINGLE JSON object — nothing before or after — with these fields:
 {
@@ -74,25 +72,28 @@ Then output a SINGLE JSON object — nothing before or after — with these fiel
   "work_model": int 0-100,
   "rationale": "one-sentence overall summary",
   "role_note": "≤20 words: the core problem, in-lane or out-of-lane, AI as lever or whole role, level fit",
-  "comp_note": "≤20 words: posted/inferred base + equity confidence",
+  "comp_note": "≤20 words: posted base + equity, or unknown",
   "ai_moat_note": "≤20 words: the defensibility take, concrete",
   "wlb_note": "≤20 words: signals and concerns, not generic platitudes",
-  "interview_note": "optional ≤25 words: what you know from training data
-                     about this company's PM interview style/difficulty/topics.
-                     OMIT this field entirely if you're not confident."
+  "interview_note": "optional ≤25 words: interview process details stated
+                     in the posting. OMIT this field if the posting has none."
 }
 
 ## Evidence rules
 
-Every company-level claim (comp bands, review ratings, retention, funding,
-stock performance, interview style) must come from the posting itself or be
-a widely documented fact you are confident about. If you don't have that
-evidence:
-  - write "unknown" in the relevant note instead of guessing,
+Your only source is the material in this request: the criteria and the
+job posting. Every factual claim about the company or role (comp, review
+ratings, retention, funding, stock performance, profitability, interview
+process) must be stated there. Do not use background knowledge or training
+data for these facts, however confident you feel. When the posting doesn't
+supply the evidence:
+  - write "unknown" in the relevant note,
   - score that dimension at a neutral 50,
   - never invent figures, ratings, or quotes.
-In each note, say where a fact came from when it isn't obvious
-("posted range", "public company filings", "unknown").
+ai_moat is the one judgment dimension: assess it from the product and
+business the posting describes, and label it as your assessment.
+In each note, say where a fact came from ("posted range", "stated in
+posting", "unknown").
 
 Be direct and calibrated. 50 means 'fine'; 80+ means 'genuinely exciting';
 20- means 'avoid'. Don't grade-inflate. Notes should be specific and useful
@@ -116,22 +117,22 @@ A score of 90+ looks like:
   Scope is core to the company's roadmap.
 
 A score of 75–85 looks like:
-  Senior PM at a strong company that clears most criteria but has one or two
-  drags: in-office requirement adds commute time, comp clears floor by a
+  A role at a strong company that clears most criteria but has one or two
+  drags: a work model the criteria rank lower, comp clears floor by a
   thin margin, mixed team-retention signals, or AI moat depends
   on first-party data that is real but not yet defensible at scale. The role
   is genuinely interesting and the candidate should apply.
 
 A score of 60–74 looks like:
-  Senior PM with comp at the floor, scope that is real but narrow, in a
+  A role with comp at the floor, scope that is real but narrow, in a
   domain where AI commoditization is a non-trivial threat. One material
-  concern (e.g. mandatory 5-day in-office, a PM on-call rotation, or pre-IPO
+  concern (e.g. the lowest-ranked work model, a PM on-call rotation, or pre-IPO
   equity with uncertain liquidity).
   Worth a closer read, not a slam-dunk apply.
 
 A score of 40–59 looks like:
   Borderline — title is ambiguous (could be IC4 or IC5), comp is unposted
-  and the company's known band is at-or-below the floor, location is
+  or posted at-or-below the floor, location is
   technically in-radius but the commute is long, OR the role is at a healthy
   company but in a function that is one rung off (PM-adjacent, not a true PM).
   Surface but de-prioritize.
@@ -163,9 +164,8 @@ team tenure and retention, and clear scope are positive flags. A PM on-call
 rotation is a drag. Pace and ambition language ("fast-paced," "high
 ownership") is neutral on its own; don't penalize it.
 
-Interview signals (only if confident; otherwise omit): known interview
-formats such as bar-raiser rounds, case studies, technical-depth rounds at
-data-infrastructure companies, or behavioral-heavy loops.
+Interview signals (only if the posting describes the process; otherwise
+omit): stated interview steps, case studies, or work samples.
 
 ## Calibration discipline — common scoring mistakes to avoid
 
@@ -208,16 +208,16 @@ Embedded enterprise contracts and two-sided marketplaces are genuine
 moats. Pure-play model companies score in the 60s on moat: the moat is a
 frontier-model lead, which is real but can erode.
 
-DO weigh commute against the candidate's base location: several in-office
-days at a distant office is a meaningful work_model drag, while fully remote
-or a nearby office is best-case.
+DO weigh location against the candidate's base location and the
+work_model_preferences in the criteria: required office days far from the
+base location are a work_model drag.
 
 ## Format reminders for output
 
 - Total length: keep notes concise. Each note is one sentence, max 20 words.
 - Don't repeat the rationale across notes — each note is for ITS dimension.
 - "interview_note" is OPTIONAL. Omit the field entirely (don't include it as
-  null or empty string) unless you are confident it is accurate.
+  null or empty string) unless the posting describes the interview process.
 - Numbers in notes are always preferred over adjectives. "Caps at $215K"
   beats "comp is borderline." "No PTO or leave policy in posting" beats
   "WLB is mid-pack."

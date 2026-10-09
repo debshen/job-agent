@@ -402,7 +402,7 @@ def _render_interview(row) -> str:
     return (
         f'<div class="interview">'
         f'<b>Interview signal:</b> {escape(note)} '
-        f'<span class="caveat">(from Claude\'s training data — may be dated)</span>'
+        f'<span class="caveat">(from the posting)</span>'
         f'</div>'
     )
 

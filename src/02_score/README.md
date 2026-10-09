@@ -62,7 +62,7 @@ Open the new `.env` file in any text editor, paste your key after the `=`, and s
 ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
 ```
 
-The `.gitignore` already excludes `.env`, so your key will never be accidentally committed or shared.
+`.env` is ignored by Git by default. Still review your staged changes before each commit.
 
 ---
 

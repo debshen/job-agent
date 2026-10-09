@@ -84,6 +84,12 @@ leniency wins.
 
 ## Examples to anchor your decisions
 
+These examples assume a SAMPLE configuration: target levels Senior through
+Lead IC, Director excluded, "Technical PM" excluded, base floor $200K,
+US-remote and in-radius hybrid allowed, experience ceiling 10 years. They
+show the reasoning pattern only. Always decide using the actual criteria
+block below; if it differs from the sample, follow the criteria.
+
 PASS examples (mark passed: true):
   - "Staff Product Manager, Payments — San Francisco / Remote-US — base
     $245-310K." Clearly senior IC, in-radius via remote, comp clears floor.
@@ -108,8 +114,8 @@ UNCERTAIN cases (mark passed: true with uncertainty: high):
   - Title is plain "Product Manager" but the years required suggest a
     senior-equivalent level under the experience ceiling. Let scoring
     evaluate.
-  - Comp not posted at a company with no public band. Pass if level looks
-    right; let scoring research it.
+  - Comp not posted. Pass if level looks right; scoring will treat comp as
+    unknown.
 
 When in doubt, lean pass — false negatives at triage (real opportunities
 dropped) are more costly than false positives (borderline jobs given a low
