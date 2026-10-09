@@ -1,0 +1,394 @@
+# =============================================================================
+# Discovery pool — the universe of companies Layer 01 considers each night.
+#
+# WHY THIS EXISTS:
+#   There's no free public API that says "give me every Bay Area tech company
+#   with 500+ employees." Crunchbase has it but costs ~$30/mo, and the spec
+#   for Layer 01 calls that out as a Stage-2 upgrade. Until then, we hand-curate
+#   this pool and the discovery script:
+#     1. Skips any company already on watchlist.yaml or in the exclude list.
+#     2. Probes each pool entry's public Greenhouse/Lever board (free, no key).
+#     3. Counts how many PM jobs are open right now in Bay Area.
+#     4. Scores the company 0–100 (see criteria.yaml → discovery: section).
+#     5. Routes high-scorers to watchlist.yaml or the review queue.
+#
+#   Once we add Crunchbase / Apify, this file becomes a *seed list* that the
+#   automated discoverer adds to. For now it IS the discovery universe.
+#
+# ADDING COMPANIES:
+#   Copy a block, fill in the fields, save. Next nightly run picks it up.
+#   The slug is the only thing that matters for the probe — get it from the
+#   company's public careers URL:
+#     https://boards.greenhouse.io/SLUG/jobs        ← Greenhouse
+#     https://jobs.lever.co/SLUG                    ← Lever
+#   If the slug is wrong, the probe will log "404 — check slug" and skip.
+#
+# REMOVING COMPANIES:
+#   Just delete the block, or set `enabled: false` to keep the entry as a note
+#   without probing it.
+#
+# FIELDS PER COMPANY:
+#   name:           Display name
+#   ats:            "greenhouse" or "lever" → auto-probed for PM hiring activity.
+#                   "custom"                → company runs its own careers site
+#                                             (DoorDash, Notion, Apple, etc.).
+#                                             Skipped at probe time, scored on
+#                                             metadata only (max 70/100), and
+#                                             routed to the review queue so you
+#                                             can manually add to watchlist.yaml
+#                                             if Layer 03 has an adapter.
+#   ats_slug:       Required for greenhouse/lever (the slug in their ATS URL).
+#                   Set to null for custom.
+#   hq_bay_area:    true if HQ is San Francisco, Peninsula, South Bay, or East Bay
+#   employees_est:  Rough headcount (used for the size filter; conservative is fine)
+#   sector:         One of the sectors_preferred / sectors_excluded in criteria.yaml
+#   notes:          Free-text reason this is on the pool, or caveats
+#   enabled:        Optional, defaults to true. Set false to skip without deleting.
+# =============================================================================
+
+companies:
+
+  # ---------- Big consumer / marketplace ----------
+  - name: Airbnb
+    ats: greenhouse
+    ats_slug: airbnb
+    hq_bay_area: true
+    employees_est: 6800
+    sector: consumer_marketplace
+    notes: SF HQ, public (ABNB). Hires PMs across host, guest, payments.
+
+  - name: DoorDash
+    ats: custom
+    ats_slug: null
+    hq_bay_area: true
+    employees_est: 17000
+    sector: consumer_marketplace
+    notes: SF HQ, public (DASH). Custom careers site (careers.doordash.com) — needs manual review or a Stage-2 custom adapter in Layer 03.
+
+  - name: Instacart
+    ats: greenhouse
+    ats_slug: instacart
+    hq_bay_area: true
+    employees_est: 3500
+    sector: consumer_marketplace
+    notes: SF HQ, public (CART). Smaller than DoorDash but PM-heavy.
+
+  - name: Lyft
+    ats: greenhouse
+    ats_slug: lyft
+    hq_bay_area: true
+    employees_est: 3000
+    sector: consumer_marketplace
+    notes: SF HQ, public (LYFT).
+
+  - name: Pinterest
+    ats: greenhouse
+    ats_slug: pinterest
+    hq_bay_area: true
+    employees_est: 4000
+    sector: consumer_marketplace
+    notes: SF HQ, public (PINS). Visual-discovery + ads PM roles.
+
+  - name: Reddit
+    ats: greenhouse
+    ats_slug: reddit
+    hq_bay_area: true
+    employees_est: 2000
+    sector: consumer_marketplace
+    notes: SF HQ, public (RDDT). Hiring across community, ads, monetization.
+
+  - name: Roblox
+    ats: greenhouse
+    ats_slug: roblox
+    hq_bay_area: true
+    employees_est: 2500
+    sector: consumer_marketplace
+    notes: Bay Area HQ. Public (RBLX).
+
+  # ---------- Fintech (non-watchlist) ----------
+  - name: Brex
+    ats: greenhouse
+    ats_slug: brex
+    hq_bay_area: true
+    employees_est: 1100
+    sector: fintech
+    notes: SF HQ. Corporate cards + spend mgmt. Pre-IPO.
+
+  - name: Chime
+    ats: greenhouse
+    ats_slug: chime
+    hq_bay_area: true
+    employees_est: 1500
+    sector: fintech
+    notes: SF HQ. Consumer fintech, IPO filed.
+
+  - name: Carta
+    ats: greenhouse
+    ats_slug: carta
+    hq_bay_area: true
+    employees_est: 1700
+    sector: fintech
+    notes: SF HQ. Cap table + private market infra.
+
+  - name: Wealthfront
+    ats: custom
+    ats_slug: null
+    hq_bay_area: true
+    employees_est: 700
+    sector: fintech
+    notes: Palo Alto HQ. Robo-advisor, owned by UBS. Custom careers site — needs manual review.
+
+  - name: Mercury
+    ats: greenhouse
+    ats_slug: mercury
+    hq_bay_area: true
+    employees_est: 800
+    sector: fintech
+    notes: SF HQ. Banking for startups, profitable, growing.
+
+  # ---------- Developer tools / infra ----------
+  - name: Cloudflare
+    ats: greenhouse
+    ats_slug: cloudflare
+    hq_bay_area: true
+    employees_est: 4000
+    sector: developer_tools
+    notes: SF HQ, public (NET). Strong AI moat (workers AI, R2).
+
+  - name: Twilio
+    ats: greenhouse
+    ats_slug: twilio
+    hq_bay_area: true
+    employees_est: 5500
+    sector: developer_tools
+    notes: SF HQ, public (TWLO). Comms APIs, post-restructure.
+
+  - name: GitLab
+    ats: greenhouse
+    ats_slug: gitlab
+    hq_bay_area: false
+    employees_est: 2000
+    sector: developer_tools
+    notes: All-remote. Public (GTLB). Will fail HQ filter unless remote work is OK.
+
+  - name: HashiCorp
+    ats: custom
+    ats_slug: null
+    hq_bay_area: true
+    employees_est: 2200
+    sector: developer_tools
+    notes: SF HQ. Infra-as-code. Acquired by IBM 2024 — careers likely on IBM's Workday now. Needs manual review.
+
+  - name: Postman
+    ats: greenhouse
+    ats_slug: postman
+    hq_bay_area: true
+    employees_est: 800
+    sector: developer_tools
+    notes: SF HQ. API tooling. Pre-IPO.
+
+  - name: Webflow
+    ats: greenhouse
+    ats_slug: webflow
+    hq_bay_area: true
+    employees_est: 700
+    sector: developer_tools
+    notes: SF HQ. Visual web dev, profitable.
+
+  # ---------- Enterprise SaaS ----------
+  - name: Okta
+    ats: greenhouse
+    ats_slug: okta
+    hq_bay_area: true
+    employees_est: 6000
+    sector: enterprise_saas
+    notes: SF HQ, public (OKTA). Identity, post-Auth0.
+
+  - name: Zendesk
+    ats: custom
+    ats_slug: null
+    hq_bay_area: true
+    employees_est: 5500
+    sector: enterprise_saas
+    notes: SF HQ. Customer support, taken private 2022. Custom careers site — needs manual review.
+
+  - name: Box
+    ats: greenhouse
+    ats_slug: boxinc
+    hq_bay_area: true
+    employees_est: 2500
+    sector: enterprise_saas
+    notes: Redwood City HQ, public (BOX). Content cloud + AI features.
+
+  - name: Dropbox
+    ats: greenhouse
+    ats_slug: dropbox
+    hq_bay_area: true
+    employees_est: 2700
+    sector: enterprise_saas
+    notes: SF HQ, public (DBX). Profitable but slower-growth.
+
+  - name: Asana
+    ats: greenhouse
+    ats_slug: asana
+    hq_bay_area: true
+    employees_est: 1700
+    sector: enterprise_saas
+    notes: SF HQ, public (ASAN). Work mgmt, AI features new.
+
+  - name: Gusto
+    ats: greenhouse
+    ats_slug: gusto
+    hq_bay_area: true
+    employees_est: 2500
+    sector: enterprise_saas
+    notes: SF HQ. Payroll + HR for SMBs. Pre-IPO.
+
+  - name: Zoom
+    ats: custom
+    ats_slug: null
+    hq_bay_area: true
+    employees_est: 7000
+    sector: enterprise_saas
+    notes: San Jose HQ, public (ZM). Likely Workday — needs manual review or Layer 03 Workday adapter.
+
+  - name: Atlassian
+    ats: lever
+    ats_slug: atlassian
+    hq_bay_area: false
+    employees_est: 11000
+    sector: enterprise_saas
+    notes: HQ Sydney/SF dual. Will fail strict HQ filter; review case-by-case.
+
+  - name: Lattice
+    ats: custom
+    ats_slug: null
+    hq_bay_area: true
+    employees_est: 600
+    sector: enterprise_saas
+    notes: SF HQ. People mgmt platform. Custom careers site — needs manual review.
+
+  # ---------- AI / ML companies (non-watchlist) ----------
+  - name: Notion
+    ats: custom
+    ats_slug: null
+    hq_bay_area: true
+    employees_est: 800
+    sector: ai_infrastructure
+    notes: SF HQ. Workspace + Notion AI. Pre-IPO at strong valuation. Custom careers site — needs manual review.
+
+  - name: Figma
+    ats: greenhouse
+    ats_slug: figma
+    hq_bay_area: true
+    employees_est: 1500
+    sector: developer_tools
+    notes: SF HQ. Design + Figma AI. Post-Adobe-deal-collapse, IPO filed 2025.
+
+  - name: Discord
+    ats: greenhouse
+    ats_slug: discord
+    hq_bay_area: true
+    employees_est: 900
+    sector: consumer_marketplace
+    notes: SF HQ. Community comms. Pre-IPO.
+
+  - name: Faire
+    ats: greenhouse
+    ats_slug: faire
+    hq_bay_area: true
+    employees_est: 1100
+    sector: consumer_marketplace
+    notes: SF HQ. Wholesale marketplace, two-sided network. Pre-IPO.
+
+  # ---------- ADDED 2026-06-06 (pool expansion) -----------------------------
+  # Slugs are best-effort and unverified from here; the nightly probe confirms
+  # each one. Any wrong slug just logs "404 — check slug" and is skipped, so
+  # these are safe to leave in. Sectors chosen to match criteria.yaml's
+  # sectors_preferred (fintech / ai_infrastructure / developer_tools /
+  # enterprise_saas / consumer_marketplace).
+
+  - name: Samsara
+    ats: greenhouse
+    ats_slug: samsara
+    hq_bay_area: true
+    employees_est: 2500
+    sector: enterprise_saas
+    notes: SF HQ, public (IOT). Connected-operations / IoT platform with real ML moat.
+
+  - name: Airtable
+    ats: greenhouse
+    ats_slug: airtable
+    hq_bay_area: true
+    employees_est: 1000
+    sector: enterprise_saas
+    notes: SF HQ. No-code app platform, pushing AI features. Pre-IPO.
+
+  - name: Benchling
+    ats: greenhouse
+    ats_slug: benchling
+    hq_bay_area: true
+    employees_est: 900
+    sector: enterprise_saas
+    notes: SF HQ. R&D cloud for biotech. Pre-IPO. Vertical SaaS moat. Slug verified valid on Greenhouse 2026-06-08; nightly probe 404 looks like a probe-endpoint quirk, not a bad slug.
+
+  - name: Confluent
+    ats: greenhouse
+    ats_slug: confluent
+    hq_bay_area: true
+    employees_est: 3000
+    sector: ai_infrastructure
+    notes: Mountain View HQ, public (CFLT). Data streaming (Kafka) infra. Disabled 2026-06-08 — slug unverifiable from here and probe 404s; re-enable once a working board slug is confirmed.
+    enabled: false
+
+  - name: Rubrik
+    ats: greenhouse
+    ats_slug: rubrik
+    hq_bay_area: true
+    employees_est: 3500
+    sector: enterprise_saas
+    notes: Palo Alto HQ, public (RBRK). Data security / cyber-resilience.
+
+  - name: Nextdoor
+    ats: greenhouse
+    ats_slug: nextdoor
+    hq_bay_area: true
+    employees_est: 700
+    sector: consumer_marketplace
+    notes: SF HQ, public (KIND). Neighborhood social network.
+
+  - name: Thumbtack
+    ats: greenhouse
+    ats_slug: thumbtack
+    hq_bay_area: true
+    employees_est: 1500
+    sector: consumer_marketplace
+    notes: SF HQ. Local-services two-sided marketplace. Pre-IPO.
+
+  - name: Grammarly
+    ats: greenhouse
+    ats_slug: grammarly
+    hq_bay_area: true
+    employees_est: 1000
+    sector: ai_infrastructure
+    notes: SF HQ. AI writing assistant — strong, defensible AI moat.
+
+  - name: Verkada
+    ats: greenhouse
+    ats_slug: verkada
+    hq_bay_area: true
+    employees_est: 2000
+    sector: enterprise_saas
+    notes: Bay Area HQ. Cloud physical security / building ops. Pre-IPO.
+
+  - name: Amplitude
+    ats: greenhouse
+    ats_slug: amplitude
+    hq_bay_area: true
+    employees_est: 800
+    sector: enterprise_saas
+    notes: SF HQ, public (AMPL). Product analytics platform.
+
+  # Retool and Sourcegraph were dropped 2026-06-08: both run their careers on
+  # Ashby, not Greenhouse/Lever, so Layer 01 can't read them for free. Re-add
+  # only if a Layer 03 Ashby adapter is built.

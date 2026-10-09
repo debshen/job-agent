@@ -1,0 +1,397 @@
+# =============================================================================
+# Canonical PM interview question bank — Phase A seed.
+#
+# These are the universally-common questions that show up across PM loops at
+# Bay Area tech companies. They're round-typed so mock.py can pick a question
+# matching the round you want to practice.
+#
+# Each question has:
+#   id            : stable identifier you can pass to `mock.py --question ID`
+#   round         : recruiter / hiring_manager / behavioral / product_sense /
+#                   execution / strategy / technical
+#   prompt        : the question itself, written in interviewer voice
+#   notes         : (optional) what the interviewer is really probing for —
+#                   shown as a hint in the bank.md output but never to the
+#                   candidate during a mock interview
+#
+# To add: append a new entry under the appropriate round. Keep IDs zero-padded
+# so sorting stays stable.
+#
+# Sourcing: drawn from public PM interview prep canon (Cracking the PM
+# Interview, Decode and Conquer, Lewis Lin, common Glassdoor patterns).
+# Nothing proprietary.
+# =============================================================================
+
+questions:
+
+  # ---------------------------------------------------------------------------
+  # Recruiter screen — fit, motivation, basic logistics. 30-45 min.
+  # ---------------------------------------------------------------------------
+  - id: recruiter_01
+    round: recruiter
+    prompt: Walk me through your background.
+    notes: Looking for a structured 2-3 minute arc, not a chronological resume read.
+
+  - id: recruiter_02
+    round: recruiter
+    prompt: Why are you exploring new opportunities right now?
+    notes: Probing for stability, motivation, and how you talk about your current role.
+
+  - id: recruiter_03
+    round: recruiter
+    prompt: What are you looking for in your next role?
+    notes: Wants a concrete priority list — comp, scope, team, mission, etc.
+
+  - id: recruiter_04
+    round: recruiter
+    prompt: Why this company?
+    notes: Tests whether you've actually researched the company or are pattern-matching.
+
+  - id: recruiter_05
+    round: recruiter
+    prompt: What are your compensation expectations?
+    notes: Don't anchor low. Reference market data and a range, not a single number.
+
+  - id: recruiter_06
+    round: recruiter
+    prompt: Tell me about your timeline. Are you actively interviewing elsewhere?
+    notes: Honest "yes, in early conversations with a few" is fine and useful leverage.
+
+  - id: recruiter_07
+    round: recruiter
+    prompt: What questions do you have for me about the role or process?
+    notes: Have 3-5 ready. Asking nothing reads as low interest.
+
+  # ---------------------------------------------------------------------------
+  # Hiring manager — deeper background dive, role fit, reporting style.
+  # ---------------------------------------------------------------------------
+  - id: hiring_manager_01
+    round: hiring_manager
+    prompt: Tell me about your career arc and what's driven the major transitions.
+    notes: Looking for thoughtful narrative, not a list of jobs.
+
+  - id: hiring_manager_02
+    round: hiring_manager
+    prompt: What's the most ambiguous problem you've owned, and how did you scope it?
+    notes: PM craft signal — can you take undefined work and produce structure?
+
+  - id: hiring_manager_03
+    round: hiring_manager
+    prompt: Walk me through how you typically work with engineering and design partners.
+    notes: Watching for collaboration mode, decision-making style, conflict patterns.
+
+  - id: hiring_manager_04
+    round: hiring_manager
+    prompt: What does your ideal manager do (and not do)?
+    notes: Reveals self-awareness and what kind of support you actually need.
+
+  - id: hiring_manager_05
+    round: hiring_manager
+    prompt: What would your last team say is the thing they most appreciated about working with you? What would they say is your biggest growth area?
+    notes: Pair of questions — second one reveals self-awareness and honesty.
+
+  - id: hiring_manager_06
+    round: hiring_manager
+    prompt: Describe your dream first 90 days in this role.
+    notes: Tests whether you've thought about ramp and have a real point of view on the team.
+
+  - id: hiring_manager_07
+    round: hiring_manager
+    prompt: Tell me about a product decision in the last year that you'd make differently if you could rewind.
+    notes: Reflection muscle. Honest "I'd change X because Y" beats "no regrets."
+
+  # ---------------------------------------------------------------------------
+  # Behavioral — STAR territory. Universal across companies.
+  # ---------------------------------------------------------------------------
+  - id: behavioral_01
+    round: behavioral
+    prompt: Tell me about a time you influenced others to adopt your idea without having direct authority over them.
+    notes: Classic. Looking for the influence technique used, not just the outcome.
+
+  - id: behavioral_02
+    round: behavioral
+    prompt: Describe a project you're most proud of. Walk me through your specific contribution.
+    notes: Push for the *specific* contribution, not the team's.
+
+  - id: behavioral_03
+    round: behavioral
+    prompt: Tell me about a time you disagreed with a senior leader. How did you handle it?
+    notes: Wants courage + tact + outcome, not just "I was right."
+
+  - id: behavioral_04
+    round: behavioral
+    prompt: Walk me through a decision you made with significantly incomplete data.
+    notes: Looking for how you sized risk and what you did to reduce ambiguity.
+
+  - id: behavioral_05
+    round: behavioral
+    prompt: Tell me about a meaningful failure. What happened, and what did you take from it?
+    notes: Real failures only. "I worked too hard" answers fail this round.
+
+  - id: behavioral_06
+    round: behavioral
+    prompt: Describe a time you had to say no to a stakeholder who had real power. How did you handle it?
+    notes: Watching how you frame the no and what alternative you offered.
+
+  - id: behavioral_07
+    round: behavioral
+    prompt: Tell me about a time you changed your mind on a key product decision. What changed it?
+    notes: Tests intellectual honesty. Best answers cite specific data or insight.
+
+  - id: behavioral_08
+    round: behavioral
+    prompt: Describe a time you had to deliver bad news, a delay, a cut feature, a missed metric.
+    notes: How you communicate, not just what you decided.
+
+  - id: behavioral_09
+    round: behavioral
+    prompt: Tell us about a time you successfully worked with engineering, design, and data teams to upgrade an experience. How did you champion the user experience?
+    notes: Wants concrete examples of cross-functional partnership across all three disciplines plus a specific UX-advocacy moment (a pushback, a tradeoff call, or a user-research insight you defended).
+
+  - id: behavioral_10
+    round: behavioral
+    prompt: Share an example of how you've integrated an AI tool into your product development workflow (research, PRDs, data analysis, design brainstorming, etc.).
+    notes: Becoming a standard 2026 question for PM roles at AI-forward companies. Tests whether the candidate is actually building with AI tools daily versus just being aware they exist. Best answers cite a specific tool plus a specific workflow improvement with rough time saved or quality gained.
+
+  - id: behavioral_09
+    round: behavioral
+    prompt: Tell me about a difficult cross-functional partner. How did you manage the relationship?
+    notes: Avoid trash-talking. Focus on what *you* changed about your approach.
+
+  - id: behavioral_10
+    round: behavioral
+    prompt: Walk me through a launch that didn't go as planned. What did you do?
+    notes: Crisis response signal. Diagnose → triage → communicate → fix → debrief.
+
+  - id: behavioral_11
+    round: behavioral
+    prompt: Describe a time you mentored or coached someone. What was the outcome?
+    notes: For Senior+ roles. Looking for repeatable mentoring style, not one-off help.
+
+  - id: behavioral_12
+    round: behavioral
+    prompt: Tell me about a time you had to choose between speed and quality. How did you decide?
+    notes: Wants explicit framework, not "I always pick the right one."
+
+  - id: behavioral_13
+    round: behavioral
+    prompt: Describe a time you missed a deadline. What happened and what did you do about it?
+    notes: Ownership signal. Don't blame the team or scope creep.
+
+  - id: behavioral_14
+    round: behavioral
+    prompt: Tell me about a time you advocated for a user need that was in tension with business goals.
+    notes: User-empathy signal balanced with commercial awareness.
+
+  - id: behavioral_15
+    round: behavioral
+    prompt: Walk me through a moment when feedback significantly changed your approach.
+    notes: Coachability. Specific feedback received → specific behavior change → outcome.
+
+  # ---------------------------------------------------------------------------
+  # Product sense / design — open-ended product thinking. 45-60 min.
+  # ---------------------------------------------------------------------------
+  - id: product_sense_01
+    round: product_sense
+    prompt: Design a product that helps elderly users stay connected with their grandchildren.
+    notes: Classic empathy + scope + prioritization round.
+
+  - id: product_sense_02
+    round: product_sense
+    prompt: How would you improve Google Maps for someone biking in a new city?
+    notes: Asking for user segmentation first, then specific improvements.
+
+  - id: product_sense_03
+    round: product_sense
+    prompt: What's your favorite product? What would you change about it, and why?
+    notes: Tests whether you can critique even what you love.
+
+  - id: product_sense_04
+    round: product_sense
+    prompt: Design a product to help new parents in their child's first year.
+    notes: Big problem space — watch for scoping discipline.
+
+  - id: product_sense_05
+    round: product_sense
+    prompt: How would you redesign the airport check-in experience?
+    notes: Service design vs. digital product distinction is interesting here.
+
+  - id: product_sense_06
+    round: product_sense
+    prompt: Design a learning app for adults trying to pick up a new language.
+    notes: Crowded category — wants a clear differentiator + target persona.
+
+  - id: product_sense_07
+    round: product_sense
+    prompt: How would you improve LinkedIn for active job seekers?
+    notes: PM-relevant; watch for treating job seekers as one persona vs. segmenting.
+
+  - id: product_sense_08
+    round: product_sense
+    prompt: Design a product that helps remote employees feel more connected to their team.
+    notes: Hot space; watch for differentiation from existing tools.
+
+  - id: product_sense_09
+    round: product_sense
+    prompt: How would you redesign the experience of buying a used car?
+    notes: Marketplace + trust + financing — multi-sided complexity.
+
+  - id: product_sense_10
+    round: product_sense
+    prompt: Design a product for couples planning a wedding.
+    notes: Two-user product; coordination + emotional design.
+
+  - id: product_sense_11
+    round: product_sense
+    prompt: Design a product for someone managing a chronic illness.
+    notes: Sensitive domain — empathy + privacy + medical constraints.
+
+  - id: product_sense_12
+    round: product_sense
+    prompt: How would you improve the experience of grocery shopping (in-person or online)?
+    notes: Bring a clear point of view on which mode and which user.
+
+  # ---------------------------------------------------------------------------
+  # Execution / analytical — metric diagnostics, prioritization, estimation.
+  # ---------------------------------------------------------------------------
+  - id: execution_01
+    round: execution
+    prompt: Daily active users dropped 8% week-over-week. How do you diagnose?
+    notes: "Look for: external factors → data quality → segments → funnel → product changes."
+
+  - id: execution_02
+    round: execution
+    prompt: How would you measure the success of a feature like Instagram Reels?
+    notes: Wants a tree of metrics, not just one number. Engagement vs. retention vs. monetization.
+
+  - id: execution_03
+    round: execution
+    prompt: Engagement is up but revenue is down. What's going on?
+    notes: Common trap — segment by user cohort, by surface, by monetization path.
+
+  - id: execution_04
+    round: execution
+    prompt: How many electric scooters should we deploy in San Francisco?
+    notes: Estimation question. Top-down (population × adoption) or bottom-up (rides per scooter).
+
+  - id: execution_05
+    round: execution
+    prompt: An A/B test shows the variant wins on conversion but loses on retention. What do you do?
+    notes: Statistical significance, time horizon, cohort, primary vs. guardrail metric.
+
+  - id: execution_06
+    round: execution
+    prompt: You have engineering capacity for 3 of these 8 features (interviewer will list them). How do you prioritize?
+    notes: RICE / impact-effort / strategic alignment — pick a framework and apply it.
+
+  - id: execution_07
+    round: execution
+    prompt: A key partner integration is broken and our metrics show declining usage. Walk me through how you'd respond.
+    notes: Crisis triage — stop the bleeding → diagnose → communicate → fix.
+
+  - id: execution_08
+    round: execution
+    prompt: How would you measure the success of a customer support chatbot?
+    notes: Containment rate vs. CSAT vs. cost-per-resolved-issue — different stakeholders care about different things.
+
+  - id: execution_09
+    round: execution
+    prompt: Your team's primary metric has been flat for two months. Walk me through what you'd do.
+    notes: Diagnose root cause → form hypotheses → prioritize tests → communicate plan upward.
+
+  - id: execution_10
+    round: execution
+    prompt: The CEO asks you to double a key metric in 6 months. How do you approach it?
+    notes: Audit the metric, segment for highest-leverage opportunity, build a roadmap, manage upward expectations.
+
+  - id: execution_11
+    round: execution
+    prompt: How would you decide which user segment to invest in next?
+    notes: Framework question — wants market size × growth × strategic fit, not pet preference.
+
+  - id: execution_12
+    round: execution
+    prompt: Estimate the number of food delivery orders placed in NYC on a Friday night.
+    notes: Estimation muscle. Population → addressable segment → frequency × order rate.
+
+  # ---------------------------------------------------------------------------
+  # Strategy — competitive, market, business model questions.
+  # ---------------------------------------------------------------------------
+  - id: strategy_01
+    round: strategy
+    prompt: Should Stripe enter the consumer banking market? Walk me through your analysis.
+    notes: Market size, fit with core competency, competitive intensity, brand permission, distribution.
+
+  - id: strategy_02
+    round: strategy
+    prompt: Build vs. buy — your team needs internal analytics tooling. How do you decide?
+    notes: TCO, control, speed, differentiation, talent.
+
+  - id: strategy_03
+    round: strategy
+    prompt: A competitor just launched a feature very similar to one on your roadmap. How do you respond?
+    notes: Copy / leapfrog / differentiate / ignore — wants reasoning, not gut.
+
+  - id: strategy_04
+    round: strategy
+    prompt: How would you price a new B2B SaaS product launching into a crowded market?
+    notes: Anchor on value, ladder vs. flat, free tier or not, willingness-to-pay research.
+
+  - id: strategy_05
+    round: strategy
+    prompt: Your company is debating expanding internationally. Which markets first, and why?
+    notes: TAM × ease-of-entry × strategic value. GDP per capita, regulatory environment, language.
+
+  - id: strategy_06
+    round: strategy
+    prompt: How would you decide whether to sunset an underperforming product?
+    notes: User impact, revenue, strategic fit, opportunity cost, customer goodwill.
+
+  - id: strategy_07
+    round: strategy
+    prompt: Pitch a new product line that Anthropic should consider building.
+    notes: Wants alignment with mission + clear go-to-market + honest competitive read.
+
+  - id: strategy_08
+    round: strategy
+    prompt: Free vs. freemium vs. paid-only — how do you decide for a new productivity app?
+    notes: Acquisition cost, LTV, virality, market expectations, monetization timing.
+
+  - id: strategy_09
+    round: strategy
+    prompt: How would you think about the AI moat for your current product?
+    notes: Data network effects, distribution, integration depth, brand. Avoid generic answers.
+
+  - id: strategy_10
+    round: strategy
+    prompt: What's your 5-year strategy for a major product area you've worked on?
+    notes: Vision + bet structure + measurable milestones, not just a roadmap.
+
+  # ---------------------------------------------------------------------------
+  # Lite technical PM — communication, not coding. Five questions only since
+  # criteria.yaml excludes pure-TPM roles.
+  # ---------------------------------------------------------------------------
+  - id: technical_01
+    round: technical
+    prompt: Explain how machine learning model training works to a non-technical stakeholder.
+    notes: Tests whether you can pick the right level of abstraction.
+
+  - id: technical_02
+    round: technical
+    prompt: Walk me through how you'd architect a simple URL shortener.
+    notes: Database, hashing, redirects, scale considerations. Not deep, but coherent.
+
+  - id: technical_03
+    round: technical
+    prompt: Tradeoffs between SQL and NoSQL for a new product feature.
+    notes: Wants a real product context, not textbook differences.
+
+  - id: technical_04
+    round: technical
+    prompt: Explain how a CDN works and when you'd use one as a PM.
+    notes: Latency, geographic distribution, cost. PM angle is when it changes user experience.
+
+  - id: technical_05
+    round: technical
+    prompt: Walk me through how API rate limiting works and when it matters for product design.
+    notes: Trust + abuse + tiering. PM angle is the user-facing implications.

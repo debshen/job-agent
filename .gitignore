@@ -1,0 +1,27 @@
+# Secrets: never commit real API keys (any .env variant except the example)
+.env
+.env.*
+!.env.example
+
+# Your personal preferences (start from config/criteria.example.yaml)
+config/criteria.yaml
+
+# Local data: job database, logs, LinkedIn exports, interview notes
+data/
+*.sqlite
+*.sqlite-journal
+*.csv
+
+# Personal documents
+*.docx
+*.xlsx
+*.pdf
+
+# Python and OS clutter
+__pycache__/
+*.pyc
+.DS_Store
+.obsidian/
+
+# Not part of the public repo
+docs/

@@ -1,0 +1,405 @@
+# =============================================================================
+# Starter watchlist of companies the scrape layer should always check.
+# The discovery layer (Layer 1) will add MORE companies over time, but these
+# are the manual seeds the candidate wants tracked from day one.
+#
+# Fields per company:
+#   name:        Display name
+#   ats:         Applicant tracking system — drives which scraper handles it.
+#                One of: greenhouse, lever, workday, custom, unknown
+#   ats_slug:    The company-specific identifier in their ATS URL.
+#                Greenhouse example: boards.greenhouse.io/STRIPE   →  slug: stripe
+#                Lever example:      jobs.lever.co/PLAID            →  slug: plaid
+#   public:      true if publicly traded
+#   ticker:      Stock ticker if public, used by company_health scoring
+#   notes:       Free-text rationale or caveats
+#
+# To add a company: copy a block, change the fields, save the file.
+# =============================================================================
+
+include:
+
+  # ---------- Big tech ----------
+  - name: Apple
+    ats: custom              # Apple uses their own jobs site
+    ats_slug: null
+    public: true
+    ticker: AAPL
+    notes: Custom ATS — Firecrawl fallback needed in Layer 3
+
+  - name: Amazon
+    ats: custom              # Amazon Jobs is custom
+    ats_slug: null
+    public: true
+    ticker: AMZN
+    notes: Massive PM org. Filter heavily by location and team to avoid noise.
+
+  - name: Netflix
+    ats: custom              # Netflix uses their own jobs page
+    ats_slug: null
+    public: true
+    ticker: NFLX
+    notes: Flat structure; limited PM headcount.
+
+  - name: Google
+    ats: custom              # Google careers is custom
+    ats_slug: null
+    public: true
+    ticker: GOOGL
+    notes: Custom ATS. Layer 3 will need Firecrawl. Huge PM surface area.
+
+  # ---------- Fintech ----------
+  - name: Stripe
+    ats: greenhouse
+    ats_slug: stripe
+    public: false
+    ticker: null
+    notes: Pre-IPO but consistently rumored. Exempt from public-stock filter.
+
+  - name: Plaid
+    ats: greenhouse
+    ats_slug: plaid
+    public: false
+    ticker: null
+    notes: Pre-IPO. Exempt from public-stock filter.
+
+  - name: Block
+    ats: greenhouse
+    ats_slug: block
+    public: true
+    ticker: SQ
+    notes: Block (formerly Square). Multiple business units including Cash App.
+
+  - name: PayPal
+    ats: workday
+    ats_slug: paypal
+    workday_host: paypal.wd1.myworkdayjobs.com
+    workday_site: jobs
+    workday_search: product manager
+    public: true
+    ticker: PYPL
+    notes: Configured for Workday adapter 2026-09-28. If first run logs HTTP 404, verify host/site by opening the PayPal careers page and checking the URL after "myworkdayjobs.com/".
+
+  - name: Robinhood
+    ats: greenhouse
+    ats_slug: robinhood
+    public: true
+    ticker: HOOD
+
+  # ---------- AI companies ----------
+  - name: Scale AI
+    ats: greenhouse
+    ats_slug: scaleai
+    public: false
+    ticker: null
+    notes: Data labeling + GenAI infra. Pre-IPO.
+
+  # ---------- Tech unicorns ----------
+  - name: Rippling
+    ats: lever
+    ats_slug: rippling
+    public: false
+    ticker: null
+    notes: HR/payroll/IT bundling. SF-based, pre-IPO.
+
+  - name: Databricks
+    ats: greenhouse
+    ats_slug: databricks
+    public: false
+    ticker: null
+    notes: Data + AI platform. Pre-IPO at large valuation.
+
+  - name: Snowflake
+    ats: greenhouse
+    ats_slug: snowflake
+    public: true
+    ticker: SNOW
+    notes: Public; competes with Databricks. Bay Area HQ.
+
+  - name: ServiceNow
+    ats: workday
+    ats_slug: servicenow
+    workday_host: servicenow.wd1.myworkdayjobs.com
+    workday_site: ServiceNowCareers
+    workday_search: product manager
+    public: true
+    ticker: NOW
+    notes: Configured for Workday adapter 2026-09-28. Strong AI moat (enterprise workflow + data). If first run logs HTTP 404, verify host/site by opening the ServiceNow careers page and checking the URL after "myworkdayjobs.com/".
+
+  # ---------- Workday-hosted companies ----------
+  - name: Salesforce
+    ats: workday
+    ats_slug: salesforce
+    workday_host: salesforce.wd12.myworkdayjobs.com
+    workday_site: External_Career_Site
+    workday_search: product manager
+    include_ic_director: true     # "Director of Product Management" is usually IC here; let scoring judge
+    public: true
+    ticker: CRM
+
+  # ---------- Added 2026-09-28 (Workday enterprise expansion) ----------
+  # All five below use best-guess workday_host/workday_site slugs. If the first
+  # nightly run logs "HTTP 404 from Workday list for '<tenant>'", open that
+  # company's careers page in a browser and correct host/site here.
+  - name: Adobe
+    ats: workday
+    ats_slug: adobe
+    workday_host: adobe.wd5.myworkdayjobs.com
+    workday_site: external_experienced
+    workday_search: product manager
+    public: true
+    ticker: ADBE
+    notes: AI-heavy (Creative Cloud + Firefly). Bay Area presence via SF and San Jose.
+
+  - name: Autodesk
+    ats: workday
+    ats_slug: autodesk
+    workday_host: autodesk.wd1.myworkdayjobs.com
+    workday_site: Ext
+    workday_search: product manager
+    public: true
+    ticker: ADSK
+    notes: Bay Area HQ (San Francisco). AI-in-CAD strategy, meaningful GenAI push.
+
+  - name: Cisco
+    ats: workday
+    ats_slug: cisco
+    workday_host: cisco.wd5.myworkdayjobs.com
+    workday_site: at_cisco
+    workday_search: product manager
+    public: true
+    ticker: CSCO
+    notes: Bay Area HQ (San Jose). Large enterprise, AI infra + collaboration.
+
+  - name: Visa
+    ats: workday
+    ats_slug: visa
+    workday_host: visa.wd1.myworkdayjobs.com
+    workday_site: Visa_Careers
+    workday_search: product manager
+    public: true
+    ticker: V
+
+  - name: Intuit
+    ats: workday
+    ats_slug: intuit
+    workday_host: intuit.wd5.myworkdayjobs.com
+    workday_site: External
+    workday_search: product manager
+    public: true
+    ticker: INTU
+    notes: Bay Area HQ (Mountain View). Fintech + tax + payroll. Genuine AI product push (Intuit Assist).
+
+  # ---------- AUTO-DISCOVERED (2026-05-06 by Layer 01) ----------
+
+  - name: Airbnb
+    ats: greenhouse
+    ats_slug: airbnb
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~6800 employees · 4 BA / 8 total PM roles
+
+  - name: Instacart
+    ats: greenhouse
+    ats_slug: instacart
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~3500 employees · 8 BA / 8 total PM roles
+
+  - name: Lyft
+    ats: greenhouse
+    ats_slug: lyft
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~3000 employees · 6 BA / 11 total PM roles
+
+  - name: Pinterest
+    ats: greenhouse
+    ats_slug: pinterest
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~4000 employees · 9 BA / 9 total PM roles
+
+  - name: Roblox
+    ats: greenhouse
+    ats_slug: roblox
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~2500 employees · 9 BA / 9 total PM roles
+
+  - name: Atlassian
+    ats: atlassian
+    public: true
+    ticker: TEAM
+
+  - name: Brex
+    ats: greenhouse
+    ats_slug: brex
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1100 employees · 3 BA / 12 total PM roles
+
+  - name: Chime
+    ats: greenhouse
+    ats_slug: chime
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1500 employees · 4 BA / 4 total PM roles
+
+  - name: Mercury
+    ats: greenhouse
+    ats_slug: mercury
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~800 employees · 3 BA / 3 total PM roles
+
+  - name: Cloudflare
+    ats: greenhouse
+    ats_slug: cloudflare
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~4000 employees · 7 BA / 8 total PM roles
+
+  - name: Twilio
+    ats: greenhouse
+    ats_slug: twilio
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~5500 employees · 7 BA / 8 total PM roles
+
+  - name: Box
+    ats: greenhouse
+    ats_slug: boxinc
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~2500 employees · 3 BA / 4 total PM roles
+
+  - name: Dropbox
+    ats: greenhouse
+    ats_slug: dropbox
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~2700 employees · 4 BA / 4 total PM roles
+
+  - name: Figma
+    ats: greenhouse
+    ats_slug: figma
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1500 employees · 3 BA / 4 total PM roles
+
+  - name: Discord
+    ats: greenhouse
+    ats_slug: discord
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~900 employees · 4 BA / 4 total PM roles
+
+  # ---------- AUTO-DISCOVERED (2026-05-06 by Layer 01) ----------
+
+  - name: Faire
+    ats: greenhouse
+    ats_slug: faire
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1100 employees · 5 BA / 5 total PM roles
+
+  - name: Reddit
+    ats: greenhouse
+    ats_slug: reddit
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~2000 employees · 2 BA / 2 total PM roles
+
+  - name: Carta
+    ats: greenhouse
+    ats_slug: carta
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~1700 employees · 1 BA / 1 total PM roles
+
+  - name: Webflow
+    ats: greenhouse
+    ats_slug: webflow
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~700 employees · 1 BA / 1 total PM roles
+
+  - name: Okta
+    ats: greenhouse
+    ats_slug: okta
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~6000 employees · 2 BA / 6 total PM roles
+
+  # ---------- AUTO-DISCOVERED (2026-06-07 by Layer 01) ----------
+
+  - name: Samsara
+    ats: greenhouse
+    ats_slug: samsara
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-06-07 — score 100/100 — Bay Area HQ · ~2500 employees · 12 BA / 12 total PM roles
+
+  - name: Rubrik
+    ats: greenhouse
+    ats_slug: rubrik
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-06-07 — score 100/100 — Bay Area HQ · ~3500 employees · 4 BA / 7 total PM roles
+
+  - name: Verkada
+    ats: greenhouse
+    ats_slug: verkada
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-06-07 — score 100/100 — Bay Area HQ · ~2000 employees · 7 BA / 7 total PM roles
+
+  - name: Airtable
+    ats: greenhouse
+    ats_slug: airtable
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-06-07 — score 90/100 — Bay Area HQ · ~1000 employees · 1 BA / 1 total PM roles
+
+  # ---------- AUTO-DISCOVERED (2026-07-17 by Layer 01) ----------
+
+  - name: Asana
+    ats: greenhouse
+    ats_slug: asana
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-07-17 — score 90/100 — Bay Area HQ · ~1700 employees · 2 BA / 10 total PM roles
+
+  # ---------- AUTO-DISCOVERED (2026-07-24 by Layer 01) ----------
+
+  - name: Postman
+    ats: greenhouse
+    ats_slug: postman
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-07-24 — score 90/100 — Bay Area HQ · ~800 employees · 1 BA / 1 total PM roles
+
+  # ---------- AUTO-DISCOVERED (2026-08-21 by Layer 01) ----------
+
+  - name: Nextdoor
+    ats: greenhouse
+    ats_slug: nextdoor
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-08-21 — score 90/100 — Bay Area HQ · ~700 employees · 1 BA / 1 total PM roles
+
+  # ---------- AUTO-DISCOVERED (2026-08-26 by Layer 01) ----------
+
+  - name: Amplitude
+    ats: greenhouse
+    ats_slug: amplitude
+    public: false
+    ticker: null
+    notes: Auto-discovered 2026-08-26 — score 90/100 — Bay Area HQ · ~800 employees · 1 BA / 1 total PM roles
+
+# Companies to NEVER score (hard exclude)
+# Also prevents Layer 01 (Discover) from re-adding them.
+exclude: []
+# Companies you never want to see, one per line, e.g.:
+#   - Current Employer Inc.

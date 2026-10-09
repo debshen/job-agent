@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  com.example.jobagent.plist — launchd config for the HEAVY data run.
+
+  Schedules the wrapper script (run_nightly.sh data) to fire at 00:30 AM
+  every morning. This step does discover + scrape + score, which has taken
+  anywhere from ~2 min (quiet days) to ~5.7 hours (busy days) — one Anthropic
+  API call per job, no concurrency yet — see src/02_score/README.md. Starting
+  at 00:30 keeps even a long run clear of the 07:00 AM digest.
+
+  A SECOND plist (com.example.jobagent.digest.plist) fires the digest email
+  at 07:00 AM exactly. Splitting the schedule means the email arrives on
+  time even when the data run runs long.
+
+  To install / reload:
+    bash scripts/install_schedule.sh
+
+  To uninstall:
+    bash scripts/uninstall_schedule.sh
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example.jobagent</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/path/to/job-agent/scripts/run_nightly.sh</string>
+        <string>data</string>
+    </array>
+
+    <!-- Run every day at 00:30. Moved earlier from 04:30 on 2026-10-02: the
+         data run (scrape + score) has been taking up to ~5.7h on busy days,
+         which overlapped the 07:00 AM digest and caused a "database is locked"
+         crash. Starting at 00:30 lets even a ~6h run finish before 07:00.
+         (A 30s busy_timeout + non-fatal mark-sent are the backstop if they
+         ever still overlap — see db.py and digest.py.) -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>0</integer>
+        <key>Minute</key>
+        <integer>30</integer>
+    </dict>
+
+    <!-- Don't run on system load (only on the schedule). -->
+    <key>RunAtLoad</key>
+    <false/>
+
+    <!-- Working directory for the script (mostly belt-and-suspenders;
+         the script also cd's explicitly). -->
+    <key>WorkingDirectory</key>
+    <string>/path/to/job-agent</string>
+
+    <!-- Capture launchd's own output. The wrapper writes detailed per-day
+         logs at data/logs/run-YYYY-MM-DD.log; this file just catches
+         catastrophic startup failures. -->
+    <key>StandardOutPath</key>
+    <string>/path/to/job-agent/data/logs/launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/path/to/job-agent/data/logs/launchd-stderr.log</string>
+
+    <!-- Low priority — we're not in a rush, don't compete with foreground apps. -->
+    <key>Nice</key>
+    <integer>10</integer>
+
+    <!-- ProcessType "Background" tells macOS this is fine to run with
+         lower QoS (won't compete with foreground tasks for CPU/IO). -->
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>

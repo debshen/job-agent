@@ -1,0 +1,354 @@
+# =============================================================================
+# FICTIONAL EXAMPLE PROFILE. Every value below is illustrative: a made-up PM
+# focused on consumer and self-serve growth, with a sample floor, location
+# and preferences. Replace all of it with your own before running.
+#
+# Job criteria — used by the scoring engine (Layer 2) to rate each
+# scraped job. Edit this file any time your priorities shift; the next nightly
+# run will pick up the changes automatically.
+#
+# How scoring works (high level):
+#   - Each job gets a score 0–100.
+#   - "must_have" criteria are HARD filters — failing one drops the job.
+#   - "scoring_weights" govern how the soft criteria roll up into the score.
+#   - "preferences" describe nice-to-haves that nudge the score up or down.
+#
+# YAML quick primer (for non-coders):
+#   - Indentation matters. Always use spaces (not tabs).
+#   - "key: value" is one field. Lists use a leading "- ".
+#   - Anything after a "#" is a comment for humans only.
+# =============================================================================
+
+candidate_profile:
+  name: Your Name
+  email: you@example.com   # example
+  base_location: San Francisco, CA   # example
+  current_role_target: Senior PM (Staff where the scope matches)
+  years_experience: 5+
+  core_lane_summary: >
+    Example: consumer subscription and commerce product (activation,
+    conversion, retention, lifecycle, loyalty, personalization, monetization),
+    plus the same growth problems at self-serve B2B and prosumer products.
+    AI is a lever inside this lane, not the lane itself.
+
+# -----------------------------------------------------------------------------
+# Hard filters — a job must pass ALL of these or it's dropped before scoring.
+# -----------------------------------------------------------------------------
+must_have:
+  role_levels:
+    include:
+      - Senior PM
+      - Senior Product Manager
+      - Staff PM
+      - Staff Product Manager
+      - PM Lead
+      - Lead Product Manager
+      - Group PM
+      - Group Product Manager
+      - Principal PM
+      - Principal Product Manager
+    exclude:
+      - APM
+      - Associate PM
+      - Associate Product Manager
+      - Senior Director
+      - VP
+      - Head of Product
+      - Technical Product Manager        # role-fit exclusion: TPM-only roles
+      - Technical PM
+
+  comp:
+    base_salary_min_usd: 150000   # example floor; set your own
+
+  experience:
+    max_required_years: 10   # example: triage fails postings whose stated minimum is at or above this; remove to disable
+
+  location:
+    radius_miles_from: San Francisco, CA   # example
+    max_miles: 25
+    work_models_allowed:
+      - hybrid
+      - remote
+      - in_office          # allowed but penalized in scoring (see below)
+
+  company_size:
+    min_employees: 500
+    # No hard max, but some companies are excluded via the "exclude_companies" list
+    # in watchlist.yaml, not here.
+
+  # JD-content exclusions: filters that look at the job description text, not
+  # the title. The triage prompt reads these and fails any posting that
+  # explicitly REQUIRES (not "preferred" / "bonus") the skills below.
+  #
+  # Only fail jobs where the excluded skill is listed as REQUIRED, not
+  # "preferred" or "a plus".
+  jd_excludes:
+    technical_depth:
+      description: >
+        Highly technical roles where the JD reads like an engineering job:
+        requires CS degree, daily coding, deep systems engineering, or PM
+        responsibilities that overlap heavily with engineering management.
+      examples_of_failures:
+        - "5+ years writing production code in Python/Go/Java"
+        - "Must be hands-on with backend systems; reviews PRs daily"
+        - "PM for our infrastructure team — owns architecture decisions"
+        - "CS degree required; engineering background preferred"
+
+# -----------------------------------------------------------------------------
+# Soft criteria — these contribute to the 0–100 score using the weights below.
+# -----------------------------------------------------------------------------
+# Lane-first weighting: role_fit carries "is the core problem in the lane +
+# is the level right," so it gets the most weight. Weights must sum to 100.
+scoring_weights:
+  role_fit: 35            # lane fit + level fit (see core_lane and role_fit_guidance)
+  comp: 20                # base + equity + bonus signal
+  work_model: 15          # remote / light hybrid preferred (see preferences)
+  ai_moat: 10             # see ai_moat block below
+  work_life_balance: 10   # team sustainability: retention, PTO and leave norms, PM on-call
+  company_health: 10      # public stock 5yr CAGR, profitability, hiring trend
+
+# -----------------------------------------------------------------------------
+# Lane-first role fit. The scorer uses this to judge role_fit. The core
+# question for every posting: "Is the problem at the center of this role one
+# the candidate has owned, with AI as a lever?" (not "how AI-forward is it?")
+# -----------------------------------------------------------------------------
+core_lane:
+  in_lane_problems:
+    - Consumer activation and onboarding (not compliance/KYC onboarding)
+    - Conversion, checkout, and purchase experience
+    - Retention, churn, lifecycle, and re-engagement
+    - Loyalty, membership, and subscription programs
+    - Personalization surfaced in consumer experiences
+    - Consumer engagement and growth
+    - Monetization of consumer products (ad formats, subscriptions, pricing)
+    - Commerce and storefront experience at consumer brands
+    - "Self-serve / product-led growth at B2B, small-business, and prosumer
+      products: onboarding, activation, trial-to-paid, upgrade and expansion,
+      retention, and lifecycle, where customers sign up and pay without a
+      sales team. Treat these the same as consumer growth."
+  bridge_lane_note: >
+    Example of an adjacent market treated as in lane: growth at products sold
+    self-serve to businesses. It is NOT sales-led
+    enterprise: roles centered on deal support, sales/SE enablement,
+    enterprise admins, account-based expansion, seller tooling, usage-based
+    billing and entitlements, or procurement stay out of lane (cap role_fit
+    ~50). A role that mixes self-serve and sales-led growth: judge by where
+    the center of gravity is.
+  out_of_lane_domains:
+    # Example: roles where specialist domain knowledge (that this example
+    # candidate doesn't have) is the center of the job.
+    - Payments rails, card networks, KYC/AML, fraud, credit, lending, installments
+    - Logistics, fulfillment operations, supply chain, marketplace unit economics
+    - Messaging infrastructure (deliverability, send-decisioning, sender reputation)
+    - Search or ML ranking/relevance as the core ownership
+    - EdTech, healthcare, insurance, benefits
+    - Developer platforms, APIs, or infrastructure as the product
+    - Native mobile platform specialist roles
+    - Sales-led enterprise motions (deal support, seller tooling, enterprise
+      admin, usage-based billing and entitlements, account-based expansion)
+  ai_as_lever: >
+    Best fit. AI is a tool inside an in-lane problem (AI personalization for
+    retention, generative AI in a commerce experience, AI-assisted checkout).
+    Boost role_fit.
+  ai_as_whole_role: >
+    Roles where AI or agents ARE the product (AI Assistant, Agents Experience,
+    agent platforms, agent-builder roles). Example setting: not targeted in
+    this search, so cap role_fit around 45, the same as an out-of-lane domain.
+    Change or delete this to target such roles. A role that owns an
+    in-lane problem (conversion, lifecycle, commerce) on an AI-powered product
+    is NOT this; judge it on the lane.
+
+role_fit_level_guidance:
+  senior: Default target. Full role_fit credit when the lane fits.
+  staff: >
+    Full credit only when the JD's years requirement is 8 or fewer (where Staff
+    scope maps to senior IC work at that company) or the company has under ~2,000 employees.
+    Otherwise cap role_fit around 60.
+  above_staff: >
+    Principal, Group PM, Lead, Senior Staff: cap role_fit around 50 unless the
+    JD's years requirement is 8 or fewer.
+
+# -----------------------------------------------------------------------------
+# Optional company deprioritization, applied at digest time like the warm
+# bonus. Lists companies you want ranked lower in the digest for any reason;
+# they are never hidden. Empty by default. Entry format:
+#   - name: ExampleCo
+#     aliases: [ExampleCo Labs]
+#     reason: why you're deprioritizing it
+# -----------------------------------------------------------------------------
+company_cooldown:
+  default_penalty: 15
+  companies: []
+
+# -----------------------------------------------------------------------------
+# Role-fit scoring guidance — how to interpret the JD's stated years-of-
+# experience requirement when computing the role_fit sub-score.
+# Example: aim for JDs targeting 5-7 years of PM experience.
+# -----------------------------------------------------------------------------
+role_fit_guidance:
+  jd_years_experience:
+    ideal_range: [5, 7]          # sweet spot; full role_fit credit
+    acceptable_range: [4, 8]     # partial credit; still worth surfacing
+    penalize_below: 4            # under-target seniority; heavy role_fit penalty
+    penalize_above: 8            # over-qualification signal; heavy role_fit penalty
+    notes: >
+      When the JD lists a years-of-experience requirement (e.g. "5+ years",
+      "6-8 years", "minimum 4 years"), weight role_fit toward postings that
+      target 5-7 years. Postings requiring 8+ years often signal scope creep
+      to Director track or over-qualification; postings under 4 usually reflect
+      IC scope too narrow for Senior/Lead. When the JD does not state a
+      specific number, treat as neutral (do not penalize).
+
+# -----------------------------------------------------------------------------
+# What "AI moat" means here — be concrete, the scorer needs this.
+# -----------------------------------------------------------------------------
+ai_moat:
+  definition: >
+    The company's product or distribution should remain defensible as
+    general-purpose AI gets cheaper. Bonus if the company itself is using AI
+    to make its products materially better, but pure "AI wrapper" companies
+    are not the goal — those have weak moats.
+  signals_positive:
+    - Proprietary data network effects (more users → better product)
+    - Hard distribution moats (regulatory, embedded enterprise contracts)
+    - Hardware + software integration that AI alone can't replicate
+    - Marketplace liquidity / two-sided network
+    - Strong brand + consumer habit
+    - Real AI deployed in product (not slideware), with measurable lift
+  signals_negative:
+    - '"AI feature" company with no defensible data or distribution'
+    - Single-purpose tool that ChatGPT could replicate in a prompt
+    - Pure content-generation businesses with no proprietary corpus
+
+# -----------------------------------------------------------------------------
+# Team sustainability signals (scored as "wlb"). High standards and a
+# sustainable team aren't in conflict; this looks for teams that retain people.
+# -----------------------------------------------------------------------------
+work_life_balance:
+  glassdoor_min_rating: 4.0    # below this loses points, only when a sourced rating is available
+  hard_no_signals:
+    - on-call rotation for PMs
+  positive_signals:
+    - strong team tenure and retention
+    - documented PTO and parental-leave policies
+    - clear scope and ownership
+
+# -----------------------------------------------------------------------------
+# Company health — bonus for strong public stock performance.
+# (Soft criterion: private companies are NOT penalized for lacking a stock
+# price; they get scored on funding stage and hiring momentum instead.)
+# -----------------------------------------------------------------------------
+company_health:
+  public_stock_5yr_cagr_min_pct: 10    # bonus tier
+  acceptable_for_private:
+    - Series C or later
+    - Last round at $5B+ valuation
+    - Profitable or clear path to profitability
+
+# -----------------------------------------------------------------------------
+# Work-model preferences — within "allowed" models, score by preference.
+# -----------------------------------------------------------------------------
+# Example preferences; set your own.
+work_model_preferences:
+  remote: 10                 # ideal
+  hybrid_1_to_2_days: 9
+  hybrid_3_days: 5
+  in_office_5_days: 2
+
+# -----------------------------------------------------------------------------
+# Warm-connection bonus — applied AT DIGEST TIME (not by Sonnet) on top of the
+# 0–100 quality score. The chip in the digest shows the effective total
+# (e.g. "84") and a small annotation shows the breakdown ("74 + 10 warm").
+#
+# Sub-scores in the database are unchanged — this bonus is computed
+# deterministically from data/linkedin_connections.csv at render time, so it
+# updates instantly whenever you re-export your LinkedIn connections.
+#
+# Tier rules (whichever is highest applies):
+#   - any_connection:     ≥1 connection at the company
+#   - relevant_role:      ≥1 connection whose Position contains a relevant
+#                         keyword (PM, Product, Engineer, Director, VP, etc.)
+#   - multiple_relevant:  ≥2 connections in relevant roles
+#
+# Set bonus_max to 0 to disable warm-intro bonuses without removing the block.
+# -----------------------------------------------------------------------------
+warm_connection:
+  bonus_max: 10
+  tiers:
+    any_connection: 4
+    relevant_role: 7
+    multiple_relevant: 10
+  relevant_role_keywords:
+    - product
+    - pm
+    - engineer
+    - engineering
+    - director
+    - vp
+    - lead
+    - head
+    - principal
+    - staff
+
+# -----------------------------------------------------------------------------
+# Layer 01 (Discover) — settings for the nightly "find new companies" pass.
+#
+# How the deterministic 0–100 score breaks down (see src/01_discover/score.py):
+#   • HQ confidence       40 pts   (clearly Bay Area in pool metadata)
+#   • Headcount confidence 30 pts  (≥ must_have.company_size.min_employees)
+#   • PM activity          20 pts  (≥1 open PM role today on their ATS board)
+#   • Hiring momentum      10 pts  (≥3 open PM roles = company is hiring fast)
+#                         ─────
+#                         100 pts
+#
+# Then we route by score:
+#   ≥ auto_add_min_score   → appended to watchlist.yaml automatically
+#   queue_min_score..auto-1 → written to data/discovery/YYYY-MM-DD.json for
+#                             you to review and manually promote
+#   < queue_min_score      → silently dropped
+#
+# Edit any of these and the next nightly run picks up the change.
+# -----------------------------------------------------------------------------
+discovery:
+  auto_add_min_score: 80     # score ≥ this → auto-added to watchlist.yaml
+  queue_min_score: 50        # score in [queue_min_score, auto_add-1] → review queue
+  max_auto_adds_per_run: 15  # safety net so a buggy run can't flood watchlist
+                              # (set to 5–10 once initial backlog clears)
+  sectors_preferred:         # bonus context only — used in the discovery README,
+    - consumer_subscription  # not in the score itself
+    - consumer_commerce
+    - consumer_marketplace
+    - consumer_apps
+    - media_and_streaming
+    - smb_and_prosumer_saas
+  sectors_excluded: []       # sector tags to skip during discovery, e.g. [example_sector]
+
+# -----------------------------------------------------------------------------
+# Scrape-time filters (Layer 03). Loose keyword checks on title and location
+# before anything is scored. Omit either list to use the defaults in
+# src/03_scrape/filters.py.
+# -----------------------------------------------------------------------------
+scrape_filters:
+  location_keywords:         # example: San Francisco Bay Area
+    - san francisco
+    - bay area
+    - oakland
+    - palo alto
+    - mountain view
+    - san jose
+    - california
+    - " ca,"
+  title_exclude_keywords:    # titles containing any of these are dropped
+    - associate
+    - apm
+    - intern
+    - technical product
+    - technical pm
+    - director
+    - "vp "
+    - vice president
+    - head of
+    - program manager
+    - project manager
+    - product marketing
+

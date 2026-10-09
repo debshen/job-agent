@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  com.example.jobagent.digest.plist — launchd config for the DIGEST email.
+
+  Fires the wrapper in 'digest' mode at exactly 07:00 every morning. The
+  digest step is just "read top-scored jobs from SQLite + send email" — it
+  takes ~2 seconds. Because the heavy data run (com.example.jobagent) ran
+  at 04:30 and finished hours ago, the database is fully up to date by 07:00.
+
+  If for some reason the data run hasn't finished by 07:00 (network outage,
+  Anthropic API slow), the digest will still fire and email yesterday's
+  scores. notify_failure has already alerted you about the data run failure
+  separately, so this is a graceful degradation, not a silent one.
+
+  To install / reload:
+    bash scripts/install_schedule.sh
+
+  To uninstall:
+    bash scripts/uninstall_schedule.sh
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example.jobagent.digest</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/path/to/job-agent/scripts/run_nightly.sh</string>
+        <string>digest</string>
+    </array>
+
+    <!-- Run every day at 07:00 sharp. -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>7</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>WorkingDirectory</key>
+    <string>/path/to/job-agent</string>
+
+    <!-- Same shared launchd log file as the data plist; the per-day log
+         distinguishes by mode. -->
+    <key>StandardOutPath</key>
+    <string>/path/to/job-agent/data/logs/launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/path/to/job-agent/data/logs/launchd-stderr.log</string>
+
+    <key>Nice</key>
+    <integer>5</integer>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
