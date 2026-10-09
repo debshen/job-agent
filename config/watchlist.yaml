@@ -78,7 +78,7 @@ include:
     workday_search: product manager
     public: true
     ticker: PYPL
-    notes: Configured for Workday adapter 2026-09-28. If first run logs HTTP 404, verify host/site by opening the PayPal careers page and checking the URL after "myworkdayjobs.com/".
+    notes: Configured for the Workday adapter. If first run logs HTTP 404, verify host/site by opening the PayPal careers page and checking the URL after "myworkdayjobs.com/".
 
   - name: Robinhood
     ats: greenhouse
@@ -124,7 +124,7 @@ include:
     workday_search: product manager
     public: true
     ticker: NOW
-    notes: Configured for Workday adapter 2026-09-28. Strong AI moat (enterprise workflow + data). If first run logs HTTP 404, verify host/site by opening the ServiceNow careers page and checking the URL after "myworkdayjobs.com/".
+    notes: Configured for the Workday adapter. Strong AI moat (enterprise workflow + data). If first run logs HTTP 404, verify host/site by opening the ServiceNow careers page and checking the URL after "myworkdayjobs.com/".
 
   # ---------- Workday-hosted companies ----------
   - name: Salesforce
@@ -137,7 +137,7 @@ include:
     public: true
     ticker: CRM
 
-  # ---------- Added 2026-09-28 (Workday enterprise expansion) ----------
+  # ---------- Workday companies ----------
   # All five below use best-guess workday_host/workday_site slugs. If the first
   # nightly run logs "HTTP 404 from Workday list for '<tenant>'", open that
   # company's careers page in a browser and correct host/site here.
@@ -190,42 +190,42 @@ include:
     ticker: INTU
     notes: Bay Area HQ (Mountain View). Fintech + tax + payroll. Genuine AI product push (Intuit Assist).
 
-  # ---------- AUTO-DISCOVERED (2026-05-06 by Layer 01) ----------
+  # ---------- AUTO-DISCOVERED by Layer 01 ----------
 
   - name: Airbnb
     ats: greenhouse
     ats_slug: airbnb
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~6800 employees · 4 BA / 8 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~6800 employees · 4 BA / 8 total PM roles
 
   - name: Instacart
     ats: greenhouse
     ats_slug: instacart
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~3500 employees · 8 BA / 8 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~3500 employees · 8 BA / 8 total PM roles
 
   - name: Lyft
     ats: greenhouse
     ats_slug: lyft
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~3000 employees · 6 BA / 11 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~3000 employees · 6 BA / 11 total PM roles
 
   - name: Pinterest
     ats: greenhouse
     ats_slug: pinterest
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~4000 employees · 9 BA / 9 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~4000 employees · 9 BA / 9 total PM roles
 
   - name: Roblox
     ats: greenhouse
     ats_slug: roblox
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~2500 employees · 9 BA / 9 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~2500 employees · 9 BA / 9 total PM roles
 
   - name: Atlassian
     ats: atlassian
@@ -237,166 +237,166 @@ include:
     ats_slug: brex
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1100 employees · 3 BA / 12 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~1100 employees · 3 BA / 12 total PM roles
 
   - name: Chime
     ats: greenhouse
     ats_slug: chime
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1500 employees · 4 BA / 4 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~1500 employees · 4 BA / 4 total PM roles
 
   - name: Mercury
     ats: greenhouse
     ats_slug: mercury
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~800 employees · 3 BA / 3 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~800 employees · 3 BA / 3 total PM roles
 
   - name: Cloudflare
     ats: greenhouse
     ats_slug: cloudflare
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~4000 employees · 7 BA / 8 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~4000 employees · 7 BA / 8 total PM roles
 
   - name: Twilio
     ats: greenhouse
     ats_slug: twilio
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~5500 employees · 7 BA / 8 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~5500 employees · 7 BA / 8 total PM roles
 
   - name: Box
     ats: greenhouse
     ats_slug: boxinc
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~2500 employees · 3 BA / 4 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~2500 employees · 3 BA / 4 total PM roles
 
   - name: Dropbox
     ats: greenhouse
     ats_slug: dropbox
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~2700 employees · 4 BA / 4 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~2700 employees · 4 BA / 4 total PM roles
 
   - name: Figma
     ats: greenhouse
     ats_slug: figma
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1500 employees · 3 BA / 4 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~1500 employees · 3 BA / 4 total PM roles
 
   - name: Discord
     ats: greenhouse
     ats_slug: discord
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~900 employees · 4 BA / 4 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~900 employees · 4 BA / 4 total PM roles
 
-  # ---------- AUTO-DISCOVERED (2026-05-06 by Layer 01) ----------
+  # ---------- AUTO-DISCOVERED by Layer 01 ----------
 
   - name: Faire
     ats: greenhouse
     ats_slug: faire
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 100/100 — Bay Area HQ · ~1100 employees · 5 BA / 5 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~1100 employees · 5 BA / 5 total PM roles
 
   - name: Reddit
     ats: greenhouse
     ats_slug: reddit
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~2000 employees · 2 BA / 2 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~2000 employees · 2 BA / 2 total PM roles
 
   - name: Carta
     ats: greenhouse
     ats_slug: carta
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~1700 employees · 1 BA / 1 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~1700 employees · 1 BA / 1 total PM roles
 
   - name: Webflow
     ats: greenhouse
     ats_slug: webflow
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~700 employees · 1 BA / 1 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~700 employees · 1 BA / 1 total PM roles
 
   - name: Okta
     ats: greenhouse
     ats_slug: okta
     public: false
     ticker: null
-    notes: Auto-discovered 2026-05-06 — score 90/100 — Bay Area HQ · ~6000 employees · 2 BA / 6 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~6000 employees · 2 BA / 6 total PM roles
 
-  # ---------- AUTO-DISCOVERED (2026-06-07 by Layer 01) ----------
+  # ---------- AUTO-DISCOVERED by Layer 01 ----------
 
   - name: Samsara
     ats: greenhouse
     ats_slug: samsara
     public: false
     ticker: null
-    notes: Auto-discovered 2026-06-07 — score 100/100 — Bay Area HQ · ~2500 employees · 12 BA / 12 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~2500 employees · 12 BA / 12 total PM roles
 
   - name: Rubrik
     ats: greenhouse
     ats_slug: rubrik
     public: false
     ticker: null
-    notes: Auto-discovered 2026-06-07 — score 100/100 — Bay Area HQ · ~3500 employees · 4 BA / 7 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~3500 employees · 4 BA / 7 total PM roles
 
   - name: Verkada
     ats: greenhouse
     ats_slug: verkada
     public: false
     ticker: null
-    notes: Auto-discovered 2026-06-07 — score 100/100 — Bay Area HQ · ~2000 employees · 7 BA / 7 total PM roles
+    notes: Auto-discovered — score 100/100 — Bay Area HQ · ~2000 employees · 7 BA / 7 total PM roles
 
   - name: Airtable
     ats: greenhouse
     ats_slug: airtable
     public: false
     ticker: null
-    notes: Auto-discovered 2026-06-07 — score 90/100 — Bay Area HQ · ~1000 employees · 1 BA / 1 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~1000 employees · 1 BA / 1 total PM roles
 
-  # ---------- AUTO-DISCOVERED (2026-07-17 by Layer 01) ----------
+  # ---------- AUTO-DISCOVERED by Layer 01 ----------
 
   - name: Asana
     ats: greenhouse
     ats_slug: asana
     public: false
     ticker: null
-    notes: Auto-discovered 2026-07-17 — score 90/100 — Bay Area HQ · ~1700 employees · 2 BA / 10 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~1700 employees · 2 BA / 10 total PM roles
 
-  # ---------- AUTO-DISCOVERED (2026-07-24 by Layer 01) ----------
+  # ---------- AUTO-DISCOVERED by Layer 01 ----------
 
   - name: Postman
     ats: greenhouse
     ats_slug: postman
     public: false
     ticker: null
-    notes: Auto-discovered 2026-07-24 — score 90/100 — Bay Area HQ · ~800 employees · 1 BA / 1 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~800 employees · 1 BA / 1 total PM roles
 
-  # ---------- AUTO-DISCOVERED (2026-08-21 by Layer 01) ----------
+  # ---------- AUTO-DISCOVERED by Layer 01 ----------
 
   - name: Nextdoor
     ats: greenhouse
     ats_slug: nextdoor
     public: false
     ticker: null
-    notes: Auto-discovered 2026-08-21 — score 90/100 — Bay Area HQ · ~700 employees · 1 BA / 1 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~700 employees · 1 BA / 1 total PM roles
 
-  # ---------- AUTO-DISCOVERED (2026-08-26 by Layer 01) ----------
+  # ---------- AUTO-DISCOVERED by Layer 01 ----------
 
   - name: Amplitude
     ats: greenhouse
     ats_slug: amplitude
     public: false
     ticker: null
-    notes: Auto-discovered 2026-08-26 — score 90/100 — Bay Area HQ · ~800 employees · 1 BA / 1 total PM roles
+    notes: Auto-discovered — score 90/100 — Bay Area HQ · ~800 employees · 1 BA / 1 total PM roles
 
 # Companies to NEVER score (hard exclude)
 # Also prevents Layer 01 (Discover) from re-adding them.

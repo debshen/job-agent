@@ -1,6 +1,6 @@
 # Job Agent
 
-A personal AI agent that finds Product Manager roles, scores each one against my criteria with an LLM, and emails me a ranked digest every morning. I built it end-to-end with Claude Code while running my own job search, and I've used it daily since April 2026.
+A personal AI agent that finds Product Manager roles, scores each one against my criteria with an LLM, and emails me a ranked digest every morning. I built it end-to-end with Claude Code while running my own job search, and I use it every day.
 
 The interesting part isn't the scraping. It's the evaluation loop: I designed the scoring rubric, hand-labeled a golden set to check it, and then used real application outcomes to find where the scoring was wrong and recalibrate it.
 

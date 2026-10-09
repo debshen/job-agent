@@ -43,7 +43,7 @@ def _scrape_filter_config() -> dict:
 
 
 def _lower_list(values, default):
-    if not values:
+    if values is None:          # key missing → defaults; [] → no keywords
         return default
     return [str(v).lower() for v in values]
 
